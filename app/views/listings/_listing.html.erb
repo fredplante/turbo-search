@@ -1,0 +1,18 @@
+<a href="#" class="group">
+  <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
+    <%= image_tag listing.cover_image, alt: listing.name, class: "h-full w-full object-cover object-center group-hover:opacity-75" %>
+  </div>
+  <div class="flex justify-between mt-4">
+    <div>
+      <h3 class="text-md text-gray-700"><%= listing.name %></h3>
+      <span class="text-gray-400 text-sm">#<%= listing.serial_number %></span>
+      <div class="flex justify-between">
+        <h4 class="text-sm text-gray-400 whitespace-nowrap"><%= listing.author %></h4>
+      </div>
+    </div>
+    <div class="flex flex-col items-end justify-between">
+      <p class="text-lg font-medium text-gray-900">$<%= listing.price %></p>
+      <span class="text-gray-500 italic text-sm"><%= listing.format %></span>
+    </div>
+  </div>
+</a>

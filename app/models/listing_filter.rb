@@ -2,6 +2,14 @@ class ListingFilter
   include ActiveModel::Model
   include ActiveModel::Attributes
 
+  SORTING_OPTIONS = [
+    { column: "created_at", direction: "desc", text: "Recently added" },
+    { column: "price", direction: "asc", text: "Price: Low to High" },
+    { column: "price", direction: "desc", text: "Price: High to Low" }
+  ]
+
+  DEFAULT_SORTING_OPTION = SORTING_OPTIONS.first
+
   # Filters
   attribute :query, :string
   attribute :min_price, :integer, default: 1
@@ -16,6 +24,9 @@ class ListingFilter
   attribute :direction, :string, default: "desc"
 
   def results
+    order_by = SORTING_OPTIONS.map { |opt| opt[:column] }.uniq.include?(order_by) ? order_by : DEFAULT_SORTING_OPTION[:column]
+    direction = SORTING_OPTIONS.map { |opt| opt[:direction] }.uniq.include?(direction) ? direction : DEFAULT_SORTING_OPTION[:direction]
+
     filtered_listings_ids = Listing.for_sale
       .joins(print: :artwork)
       .price_between(min_price, max_price)
@@ -30,5 +41,9 @@ class ListingFilter
       .search(query)
       .reorder(order_by => direction)
       .limit(200)
+  end
+
+  def selected_sorting_option
+    @selected_sorting_option ||= (SORTING_OPTIONS.find { |option| order_by == option[:column] && direction == option[:direction] } || SORTING_OPTIONS.first)
   end
 end
