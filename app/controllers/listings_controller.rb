@@ -15,8 +15,7 @@ class ListingsController < ApplicationController
       :min_price,
       :max_price,
       :page,
-      :order_by,
-      :direction,
+      :sorting,
       category: [],
       tag: [],
       format: []

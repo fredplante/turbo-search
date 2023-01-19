@@ -2,11 +2,11 @@ class ListingFilter
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  SORTING_OPTIONS = [
-    { column: "created_at", direction: "desc", text: "Recently added" },
-    { column: "price", direction: "asc", text: "Price: Low to High" },
-    { column: "price", direction: "desc", text: "Price: High to Low" }
-  ]
+  SORTING_OPTIONS = {
+    created_at_asc: { column: "created_at", direction: "desc", text: "Recently added" },
+    price_asc: { column: "price", direction: "asc", text: "Price: Low to High" },
+    price_desc: { column: "price", direction: "desc", text: "Price: High to Low" }
+  }
 
   DEFAULT_SORTING_OPTION = SORTING_OPTIONS.first
 
@@ -20,13 +20,9 @@ class ListingFilter
   # Pagination
   attribute :page, :integer, default: 1
   # Sorting
-  attribute :order_by, :string, default: "created_at"
-  attribute :direction, :string, default: "desc"
+  attribute :sorting, :string, default: "created_at_asc"
 
   def results
-    order_by = SORTING_OPTIONS.map { |opt| opt[:column] }.uniq.include?(order_by) ? order_by : DEFAULT_SORTING_OPTION[:column]
-    direction = SORTING_OPTIONS.map { |opt| opt[:direction] }.uniq.include?(direction) ? direction : DEFAULT_SORTING_OPTION[:direction]
-
     filtered_listings_ids = Listing.for_sale
       .joins(print: :artwork)
       .price_between(min_price, max_price)
@@ -39,11 +35,11 @@ class ListingFilter
       .includes(artwork: { cover_image_attachment: :blob })
       .where(id: filtered_listings_ids)
       .search(query)
-      .reorder(order_by => direction)
+      .reorder(selected_sorting_option[:column] => selected_sorting_option[:direction])
       .limit(200)
   end
 
   def selected_sorting_option
-    @selected_sorting_option ||= (SORTING_OPTIONS.find { |option| order_by == option[:column] && direction == option[:direction] } || SORTING_OPTIONS.first)
+    @selected_sorting_option ||= SORTING_OPTIONS[sorting.to_sym] || SORTING_OPTIONS[DEFAULT_SORTING_OPTION]
   end
 end
