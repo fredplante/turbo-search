@@ -1,24 +1,11 @@
-# README
+# Turbo search
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This repo is a rails app implementing a sample product search using rails and hotwire.
 
-Things you may want to cover:
+This app is to illustrate [a blog post](https://dev.to/fredplante/a-powerful-search-feature-with-what-rails-provides-out-of-the-box-1oo8), inspired by [another blog post](https://dev.to/lso/the-ultimate-search-for-rails-episode-1-1mi) from [Louis Sommer](https://twitter.com/sommer_of_love) ([original repo](https://github.com/bear-in-mind/ultimate_search/tree/main))
 
-* Ruby version
+To setup locally, ensure you have docker-compose installed, then run:
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+bin/setup
+```
