@@ -9,3 +9,5 @@ To setup locally, ensure you have docker-compose installed, then run:
 ```bash
 bin/setup
 ```
+
+![screenshot](https://user-images.githubusercontent.com/3378724/213526978-c6fab85f-349a-4152-9a35-15e84bc2eb47.gif)
